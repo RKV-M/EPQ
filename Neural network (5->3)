@@ -1,0 +1,57 @@
+# EXACTLY-3-OF-5 neural network (5 inputs -> 10 hidden neurons -> 1 output)
+# Prints ALL 32 possible inputs and the network's output for each.
+
+from itertools import combinations
+
+def step(z):
+    return 1 if z > 0 else 0
+
+# ----- Build the network weights -----
+
+# Hidden layer has 10 neurons: one neuron for each triple of inputs (5 choose 3 = 10)
+triples = list(combinations(range(5), 3))
+
+W1 = []
+b1 = []
+
+for (i, j, k) in triples:
+    weights = [-1, -1, -1, -1, -1]
+    weights[i] = 1
+    weights[j] = 1
+    weights[k] = 1
+    W1.append(weights)
+    b1.append(-2.5)
+
+# Output layer: OR over the 10 hidden neurons
+W2 = [1] * 10
+b2 = -0.5
+
+def forward(x):
+    hidden = []
+
+    # hidden layer
+    for h in range(10):
+        s = 0
+        for inp in range(5):
+            s += W1[h][inp] * x[inp]
+        s += b1[h]
+        hidden.append(step(s))
+
+    # output layer
+    out_sum = 0
+    for h in range(10):
+        out_sum += W2[h] * hidden[h]
+    out_sum += b2
+
+    return step(out_sum)
+
+# ----- Print all possible inputs -----
+print("x1 x2 x3 x4 x5  ->  output")
+for a in [0, 1]:
+    for b in [0, 1]:
+        for c in [0, 1]:
+            for d in [0, 1]:
+                for e in [0, 1]:
+                    x = [a, b, c, d, e]
+                    y = forward(x)
+                    print(a,  b,  c,  d,  e,  " -> ", y)
