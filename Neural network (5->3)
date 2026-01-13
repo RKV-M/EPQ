@@ -55,3 +55,5 @@ for a in [0, 1]:
                     x = [a, b, c, d, e]
                     y = forward(x)
                     print(a,  b,  c,  d,  e,  " -> ", y)
+
+# paste this in your terminal or command line: & "C:\Users\<YOUR USER>\AppData\Local\Microsoft\WindowsApps\python3.13.exe" "<FILE LOCATION>"
